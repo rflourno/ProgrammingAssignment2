@@ -8,8 +8,6 @@
 ##   2. get the matrix
 ##   3. set the inverse of the matrix
 ##   4. get the inverse of the matrix
-##
-## Note that the MASS package must be loaded for ginv().
 
 makeCacheMatrix <- function(x = matrix()) {
         m <- NULL
@@ -18,7 +16,7 @@ makeCacheMatrix <- function(x = matrix()) {
                 m <<- NULL
         }
         get <- function() x
-        setinverse <- function(ginv) m <<- ginv
+        setinverse <- function(solve) m <<- solve
         getinverse <- function() m
         list(set = set, get = get,
              setinverse = setinverse,
@@ -41,11 +39,11 @@ cacheSolve <- function(x, ...) {
 
         m <- x$getinverse()
         if(!is.null(m)) {
-                message("getting cached data")
+                message("getting the cached data")
                 return(m)
         }
         data <- x$get()
-        m <- ginv(data, ...)
+        m <- solve(data, ...)
         x$setinverse(m)
         m
 }
